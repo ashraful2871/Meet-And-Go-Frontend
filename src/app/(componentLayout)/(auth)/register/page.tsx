@@ -1,4 +1,4 @@
-import LoginForm from "@/components/Loginform";
+import RegisterForm from "@/components/RegisterForm";
 import {
   Card,
   CardContent,
@@ -6,20 +6,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import React from "react";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-xl">
         <Card>
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Welcome back</CardTitle>
+          <CardHeader>
+            <CardTitle>Create an account</CardTitle>
             <CardDescription>
-              Sign in to your account to continue
+              Enter your information below to create your account
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <LoginForm />
+            <RegisterForm />
           </CardContent>
         </Card>
       </div>
@@ -27,4 +28,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
