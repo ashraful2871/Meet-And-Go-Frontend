@@ -3,7 +3,7 @@
 
 import { parse } from "cookie";
 import { setCookie } from "./cookiesHandler";
-
+import { JwtPayload } from "jsonwebtoken";
 export const loginUser = async (
   _currentState: any,
   formData: any
@@ -62,6 +62,8 @@ export const loginUser = async (
       path: refreshTokenObject.Path || "/",
       sameSite: refreshTokenObject.SameSite || "none",
     });
+
+    const verifyToken: JwtPayload;
   } catch (error) {
     console.log(error);
   }
