@@ -4,7 +4,6 @@ import { useActionState, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -24,63 +23,15 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { registerUser } from "@/service/auth/registerUser";
+import { Field, FieldLabel } from "./ui/field";
 
 const RegisterForm = () => {
   const [state, formAction, isPending] = useActionState(registerUser, null);
   console.log(state);
+
+  const [gender, setGender] = useState<"MALE" | "FEMALE">();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    gender: "",
-    dateOfBirth: "",
-    address: "",
-    phoneNumber: "",
-    bio: "",
-    profilePicture: "",
-    agreeToTerms: false,
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validate passwords match
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
-
-    // Prepare data for backend
-    const userData = {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      gender: formData.gender || null,
-      dateOfBirth: formData.dateOfBirth ? new Date(formData.dateOfBirth) : null,
-      address: formData.address || null,
-      phoneNumber: formData.phoneNumber || null,
-      bio: formData.bio || null,
-      profilePicture: formData.profilePicture || null,
-    };
-
-    console.log("Form submitted:", userData);
-    // TODO: Send to API
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value, type } = e.target;
-    const checked = (e.target as HTMLInputElement).checked;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
 
   return (
     <form action={formAction} className="space-y-5">
@@ -96,8 +47,6 @@ const RegisterForm = () => {
             name="name"
             type="text"
             placeholder="John Doe"
-            value={formData.name}
-            onChange={handleChange}
             className="pl-10"
             required
           />
@@ -116,8 +65,6 @@ const RegisterForm = () => {
             name="email"
             type="email"
             placeholder="john@example.com"
-            value={formData.email}
-            onChange={handleChange}
             className="pl-10"
             required
           />
@@ -131,21 +78,29 @@ const RegisterForm = () => {
           <Label htmlFor="gender" className="text-sm font-medium">
             Gender
           </Label>
-          <Select
-            value={formData.gender}
-            onValueChange={(value) =>
-              setFormData((prev) => ({ ...prev, gender: value }))
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select gender" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="MALE">Male</SelectItem>
-              <SelectItem value="FEMALE">Female</SelectItem>
-              <SelectItem value="OTHER">Other</SelectItem>
-            </SelectContent>
-          </Select>
+          <Field>
+            <FieldLabel htmlFor="gender">Gender</FieldLabel>
+            <Input
+              id="gender"
+              name="gender"
+              placeholder="Select gender"
+              defaultValue={gender}
+              type="hidden"
+            />
+            <Select
+              value={gender}
+              onValueChange={(value) => setGender(value as "MALE" | "FEMALE")}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select gender" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="MALE">Male</SelectItem>
+                <SelectItem value="FEMALE">Female</SelectItem>
+              </SelectContent>
+            </Select>
+            {/* <InputFieldError state={state} field="gender" /> */}
+          </Field>
         </div>
 
         {/* Date of Birth */}
@@ -159,8 +114,6 @@ const RegisterForm = () => {
               id="dateOfBirth"
               name="dateOfBirth"
               type="date"
-              value={formData.dateOfBirth}
-              onChange={handleChange}
               className="pl-10"
             />
           </div>
@@ -180,9 +133,6 @@ const RegisterForm = () => {
               id="phoneNumber"
               name="phoneNumber"
               type="tel"
-              placeholder="+1 (555) 000-0000"
-              value={formData.phoneNumber}
-              onChange={handleChange}
               className="pl-10"
             />
           </div>
@@ -200,8 +150,6 @@ const RegisterForm = () => {
               name="address"
               type="text"
               placeholder="New York, NY"
-              value={formData.address}
-              onChange={handleChange}
               className="pl-10"
             />
           </div>
@@ -220,8 +168,6 @@ const RegisterForm = () => {
             name="password"
             type={showPassword ? "text" : "password"}
             placeholder="••••••••"
-            value={formData.password}
-            onChange={handleChange}
             className="pl-10 pr-10"
             required
           />
@@ -254,8 +200,6 @@ const RegisterForm = () => {
             name="confirmPassword"
             type={showConfirmPassword ? "text" : "password"}
             placeholder="••••••••"
-            value={formData.confirmPassword}
-            onChange={handleChange}
             className="pl-10 pr-10"
             required
           />
@@ -274,7 +218,7 @@ const RegisterForm = () => {
       </div>
 
       {/* Terms and Conditions */}
-      <div className="flex items-start gap-3 rounded-lg border bg-muted/50 p-4">
+      {/* <div className="flex items-start gap-3 rounded-lg border bg-muted/50 p-4">
         <Checkbox
           id="agreeToTerms"
           checked={formData.agreeToTerms}
@@ -284,7 +228,7 @@ const RegisterForm = () => {
           required
           className="mt-0.5"
         />
-        <label
+        <Label
           htmlFor="agreeToTerms"
           className="text-sm leading-relaxed text-muted-foreground"
         >
@@ -302,12 +246,12 @@ const RegisterForm = () => {
           >
             Privacy Policy
           </Link>
-        </label>
-      </div>
+        </Label>
+      </div> */}
 
       {/* Submit Button */}
-      <Button type="submit" className="w-full" size="lg">
-        Create Account
+      <Button disabled={isPending} type="submit" className="w-full" size="lg">
+        {isPending ? "Creating Account..." : "Create Account"}
       </Button>
 
       {/* Divider */}
@@ -360,9 +304,7 @@ const RegisterForm = () => {
           href="/login"
           className="font-medium text-primary underline-offset-4 hover:underline"
         >
-          <Button disabled={isPending}>
-            {isPending ? "Signing in..." : "Sign in here"}
-          </Button>
+          <Button variant={"link"}>Sign in here</Button>
         </Link>
       </p>
     </form>

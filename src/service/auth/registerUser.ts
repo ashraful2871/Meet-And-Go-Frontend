@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use server";
 export const registerUser = async (
   _currentSate: any,
   formData: any
 ): Promise<any> => {
   try {
     const payload = {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      phone: formData.phoneNumber,
-      address: formData.address,
+      name: formData.get("name"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      phoneNumber: formData.get("phoneNumber"),
+      address: formData.get("address"),
+      gender: formData.get("gender"),
     };
 
     const res = await fetch(
