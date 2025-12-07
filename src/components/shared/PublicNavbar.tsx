@@ -10,6 +10,8 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import { Menu } from "lucide-react";
+import { getCookie } from "@/service/auth/cookiesHandler";
+import LogoutButton from "./LogoutButton";
 
 const PublicNavbar = async () => {
   const { role } = { role: "guest" };
@@ -23,7 +25,7 @@ const PublicNavbar = async () => {
   if (role === "ADMIN") {
     navItems.push({ label: "Admin Dashboard", href: "/dashboard/admin" });
   }
-
+  const accessToken = await getCookie("accessToken");
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-md dark:bg-background/95">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -50,15 +52,14 @@ const PublicNavbar = async () => {
 
         {/* Right: Login Button (Desktop) */}
         <div className="hidden md:block">
-          <Button>Login</Button>
-          {/* {accessToken ? (
-            // <LogoutButton></LogoutButton>
-            <Button>Login</Button>
+          {accessToken ? (
+            <LogoutButton />
           ) : (
+            // <Button>Login</Button>
             <Button>
               <Link href="/login">Login</Link>
             </Button>
-          )} */}
+          )}
         </div>
 
         {/* Mobile Navigation */}

@@ -12,9 +12,9 @@ export const setCookie = async (
   cookieStore.set(key, value, options);
 };
 
-export const getSetCookie = async (key: string) => {
+export const getCookie = async (key: string) => {
   const cookieStore = await cookies();
-  return cookieStore.get(key);
+  return cookieStore.get(key)?.value || null;
 };
 
 export const deleteCookie = async (key: string) => {

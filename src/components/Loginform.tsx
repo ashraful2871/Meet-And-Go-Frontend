@@ -8,13 +8,14 @@ import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { loginUser } from "@/service/auth/loginUser";
 
-const LoginForm = () => {
+const LoginForm = ({ redirect }: { redirect?: string }) => {
   const [state, formAction, isPending] = useActionState(loginUser, null);
   console.log(state);
   const [showPassword, setShowPassword] = useState(false);
   return (
     <form action={formAction} className="space-y-6">
       {/* Email */}
+      {redirect && <input type="hidden" name="redirect" value={redirect} />}
       <div className="space-y-2">
         <Label htmlFor="email" className="text-sm font-medium">
           Email Address
