@@ -5,14 +5,17 @@ import Hero from "@/components/modules/Home/Hero";
 import HowItWorks from "@/components/modules/Home/HowItWorks";
 import Testimonials from "@/components/modules/Home/Testimonials";
 import WhyChooseUs from "@/components/modules/Home/Whychooseus";
+import { getAllEvents } from "@/service/event/all-event";
 import React from "react";
 
-const Home = () => {
+const Home = async () => {
+  const events = await getAllEvents();
+
   return (
     <div>
       <Hero />
       <HowItWorks />
-      <FeaturedEvents />
+      <FeaturedEvents events={events.data} />
       <Categories />
       <WhyChooseUs />
       <Testimonials />

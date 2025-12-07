@@ -17,7 +17,7 @@ const PublicNavbar = async () => {
   const { role } = { role: "guest" };
   const navItems = [
     { label: "Home", href: "/" },
-    { label: "Consultation", href: "/consultation" },
+    { label: "Events", href: "/events" },
     { label: "Health Plan", href: "/health-plan" },
     { label: "Diagnosis", href: "/diagnosis" },
     { label: "NGOs", href: "/ngos" },
