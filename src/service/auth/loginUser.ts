@@ -3,7 +3,6 @@
 
 import { parse } from "cookie";
 import { setCookie } from "./cookiesHandler";
-import { JwtPayload } from "jsonwebtoken";
 export const loginUser = async (
   _currentState: any,
   formData: any
