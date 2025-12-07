@@ -3,12 +3,14 @@
 
 import { parse } from "cookie";
 import { setCookie } from "./cookiesHandler";
-import { JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { UserRole } from "./auth-utils";
 export const loginUser = async (
   _currentState: any,
   formData: any
 ): Promise<any> => {
   try {
+    const redirectTo = formData.get("redirect");
     let accessTokenObject: null | any = null;
     let refreshTokenObject: null | any = null;
 
@@ -63,7 +65,20 @@ export const loginUser = async (
       sameSite: refreshTokenObject.SameSite || "none",
     });
 
-    const verifyToken: JwtPayload;
+    const verifyToken: JwtPayload | string = jwt.verify(
+      accessTokenObject.accessToken,
+      process.env.JWT_SECRET as string
+    );
+
+    if (typeof verifyToken === "string") {
+      throw new Error("Invalid token");
+    }
+
+    const userRole: UserRole = verifyToken.role;
+
+    if (!result.success) {
+      throw new Error(result.message || "Login failed");
+    }
   } catch (error) {
     console.log(error);
   }
