@@ -1,37 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const LoginForm = () => {
+  const [state, formAction, isPending] = useActionState(loginUser, null);
+  console.log(state);
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    rememberMe: false,
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Login submitted:", formData);
-    // TODO: Send to API
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form action={formAction} className="space-y-6">
       {/* Email */}
       <div className="space-y-2">
         <Label htmlFor="email" className="text-sm font-medium">
@@ -44,8 +25,6 @@ const LoginForm = () => {
             name="email"
             type="email"
             placeholder="john@example.com"
-            value={formData.email}
-            onChange={handleChange}
             className="pl-10"
             required
           />
@@ -58,11 +37,13 @@ const LoginForm = () => {
           <Label htmlFor="password" className="text-sm font-medium">
             Password
           </Label>
-          <Link
-            href="/forgot-password"
-            className="text-sm font-medium text-primary underline-offset-4 hover:underline"
-          >
-            Forgot password?
+          <Link href="/forgot-password">
+            <Button
+              variant={"link"}
+              className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+            >
+              Forgot password?
+            </Button>
           </Link>
         </div>
         <div className="relative">
@@ -72,8 +53,6 @@ const LoginForm = () => {
             name="password"
             type={showPassword ? "text" : "password"}
             placeholder="••••••••"
-            value={formData.password}
-            onChange={handleChange}
             className="pl-10 pr-10"
             required
           />
@@ -92,7 +71,7 @@ const LoginForm = () => {
       </div>
 
       {/* Remember Me */}
-      <div className="flex items-center gap-2">
+      {/* <div className="flex items-center gap-2">
         <Checkbox
           id="rememberMe"
           checked={formData.rememberMe}
@@ -106,11 +85,16 @@ const LoginForm = () => {
         >
           Remember me for 30 days
         </label>
-      </div>
+      </div> */}
 
       {/* Submit Button */}
-      <Button type="submit" className="w-full group" size="lg">
-        Sign In
+      <Button
+        disabled={isPending}
+        type="submit"
+        className="w-full group"
+        size="lg"
+      >
+        {isPending ? "Signing in..." : "Sign In"}
         <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
       </Button>
 
@@ -160,11 +144,13 @@ const LoginForm = () => {
       {/* Sign Up Link */}
       <p className="text-center text-sm text-muted-foreground">
         Don not have an account?{" "}
-        <Link
-          href="/register"
-          className="font-medium text-primary underline-offset-4 hover:underline"
-        >
-          Sign up for free
+        <Link href="/register">
+          <Button
+            variant={"link"}
+            className="font-medium text-primary underline-offset-4 hover:underline"
+          >
+            Sign up here
+          </Button>
         </Link>
       </p>
     </form>
