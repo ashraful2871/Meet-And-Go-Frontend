@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { IEvents } from "@/types/event.interface";
 import { getAllEvents } from "@/service/event/all-event";
 import AllEvents from "@/components/modules/All-Events/AllEvents";
 
@@ -8,7 +7,7 @@ const AllEventsPage = async () => {
   return (
     <>
       <Suspense>
-        <AllEvents initialEvents={events.data} />
+        <AllEvents initialEvents={events?.data} />
       </Suspense>
     </>
   );
