@@ -57,7 +57,7 @@ export default function EventCard({ event }: { event: IEvents }) {
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl">
       {/* Event Image */}
-      <Link href={`/events/${event.id}`} className="block">
+      <Link href={`/events/event/${event.id}`} className="block">
         <div className="relative h-48 overflow-hidden bg-muted">
           <Image
             src={DEFAULT_EVENT_IMAGE}
@@ -158,7 +158,7 @@ export default function EventCard({ event }: { event: IEvents }) {
             </span>
           </div>
           <Button size="sm" className="gap-2" asChild>
-            <Link href={`/events/${event.id}`}>
+            <Link href={`/events/event/${event.id}`}>
               View Details
               <ArrowRight className="h-4 w-4" />
             </Link>
