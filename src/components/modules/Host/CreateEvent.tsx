@@ -53,14 +53,6 @@ const CreateEventForm = ({ categories }: CreateEventFormProps) => {
     if (state && state.success) {
       toast.success(state.message || "Event created successfully");
     }
-
-    // setTimeout(() => {
-    //   if (state && state.success) {
-    //     router.push("/host/dashboard/my-events");
-    //   } else {
-    //     router.refresh();
-    //   }
-    // }, 1500);
   }, [state]);
   return (
     <form action={formAction} className="space-y-8">
