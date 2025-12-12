@@ -1,4 +1,4 @@
-export type UserRole = "ADMIN" | "USER" | "HOST";
+export type UserRole = "ADMIN" | "USER" | "HOST" | "GUEST";
 
 export type RouteConfig = {
   exact: string[];
