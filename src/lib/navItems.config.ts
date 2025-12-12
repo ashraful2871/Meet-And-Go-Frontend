@@ -111,7 +111,7 @@ export const adminNavItems: NavSection[] = [
       },
       {
         title: "Categories",
-        href: "/admin/dashboard/categories-management",
+        href: "/admin/dashboard/category-managements",
         icon: "Tag",
         roles: ["ADMIN"],
       },
