@@ -87,8 +87,8 @@ export const adminNavItems: NavSection[] = [
         roles: ["ADMIN"],
       },
       {
-        title: "Hosts",
-        href: "/admin/dashboard/hosts-management",
+        title: "Hosts Verification",
+        href: "/admin/dashboard/hosts-verification",
         icon: "Stethoscope",
         roles: ["ADMIN"],
       },
