@@ -36,7 +36,8 @@ interface ProfileContentProps {
 
 const ProfileContent = ({ user }: ProfileContentProps) => {
   console.log(user, " from ProfileContent");
-  // Early return if no user data
+
+  // Handle case when user data is not available
   if (!user) {
     return (
       <div className="flex min-h-screen items-center justify-center">
