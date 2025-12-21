@@ -167,11 +167,11 @@ const stats = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background transition-colors duration-300">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-foreground py-20 lg:py-28">
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-purple-600 dark:from-gray-950 dark:to-black py-20 lg:py-28 transition-colors duration-300">
         {/* Subtle Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 opacity-5 dark:opacity-10">
           <div
             className="absolute inset-0"
             style={{
@@ -179,6 +179,10 @@ export default function AboutPage() {
             }}
           />
         </div>
+
+        {/* Decorative Elements for Dark Mode */}
+        <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-white/10 dark:bg-purple-500/10 blur-3xl" />
+        <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-white/10 dark:bg-blue-500/10 blur-3xl" />
 
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
@@ -190,7 +194,7 @@ export default function AboutPage() {
             <motion.div variants={fadeInUp}>
               <Badge
                 variant="secondary"
-                className="bg-background/10 text-background border-background/20 mb-6 px-4 py-2 text-sm font-medium"
+                className="bg-white/10 dark:bg-white/5 text-white border-white/20 dark:border-gray-700 mb-6 px-4 py-2 text-sm font-medium"
               >
                 <Sparkles className="w-4 h-4 mr-2" />
                 Our Story
@@ -199,15 +203,17 @@ export default function AboutPage() {
 
             <motion.h1
               variants={fadeInUp}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-background mb-6 leading-tight"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
             >
               Connecting People Through{" "}
-              <span className="text-orange-400">Shared Adventures</span>
+              <span className="text-orange-400 dark:text-orange-300">
+                Shared Adventures
+              </span>
             </motion.h1>
 
             <motion.p
               variants={fadeInUp}
-              className="text-lg md:text-xl text-background/70 mb-10 max-w-2xl mx-auto leading-relaxed"
+              className="text-lg md:text-xl text-blue-100 dark:text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed"
             >
               We&apos;re on a mission to ensure no one misses out on life&apos;s
               amazing experiences. Meet & Go connects like-minded individuals
@@ -220,14 +226,14 @@ export default function AboutPage() {
             >
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 rounded-full text-base font-semibold transition-all duration-300"
+                className="bg-white dark:bg-white text-blue-600 dark:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-200 px-8 py-6 rounded-full text-base font-semibold transition-all duration-300"
               >
                 Join Our Community
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
               <Button
                 size="lg"
-                className="bg-background hover:bg-background/90 text-foreground px-8 py-6 rounded-full text-base font-semibold transition-all duration-300"
+                className="bg-white/10 dark:bg-white/5 hover:bg-white/20 dark:hover:bg-white/10 text-white border border-white/20 dark:border-gray-700 px-8 py-6 rounded-full text-base font-semibold transition-all duration-300"
               >
                 <Play className="mr-2 w-5 h-5" />
                 Watch Our Story
@@ -295,7 +301,7 @@ export default function AboutPage() {
                 </div>
               </div>
               {/* Floating Card */}
-              <div className="absolute -bottom-4 -right-4 bg-card rounded-xl shadow-lg p-4 border border-border">
+              <div className="absolute -bottom-4 -right-4 bg-card rounded-xl shadow-lg dark:shadow-black/30 p-4 border border-border">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
                     <Users className="w-6 h-6 text-primary" />
@@ -361,7 +367,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Story Timeline */}
-      <section className="py-20 lg:py-28 bg-muted">
+      <section className="py-20 lg:py-28 bg-muted dark:bg-gray-950/50">
         <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
@@ -371,7 +377,7 @@ export default function AboutPage() {
             className="text-center mb-14"
           >
             <motion.div variants={fadeInUp}>
-              <Badge className="bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400 border-0 mb-4 font-medium">
+              <Badge className="bg-orange-100 dark:bg-orange-950 text-orange-600 dark:text-orange-400 border-0 mb-4 font-medium">
                 <Award className="w-4 h-4 mr-2" />
                 Our Journey
               </Badge>
@@ -401,7 +407,7 @@ export default function AboutPage() {
           >
             {milestones.map((milestone, index) => (
               <motion.div key={index} variants={fadeInUp}>
-                <Card className="h-full border-border shadow-sm hover:shadow-md transition-shadow duration-300 bg-card">
+                <Card className="h-full border-border shadow-sm hover:shadow-md dark:hover:shadow-black/30 transition-shadow duration-300 bg-card">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <span className="text-3xl font-bold text-primary">
@@ -464,7 +470,7 @@ export default function AboutPage() {
             {coreValues.map((value, index) => (
               <motion.div key={index} variants={fadeInUp}>
                 <Card
-                  className={`h-full border ${value.borderColor} shadow-sm hover:shadow-md transition-all duration-300 bg-card`}
+                  className={`h-full border ${value.borderColor} shadow-sm hover:shadow-md dark:hover:shadow-black/30 transition-all duration-300 bg-card`}
                 >
                   <CardContent className="p-6 text-center">
                     <div
@@ -487,7 +493,7 @@ export default function AboutPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-foreground">
+      <section className="py-16 bg-gradient-to-br from-blue-600 to-purple-600 dark:from-gray-950 dark:to-black transition-colors duration-300">
         <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
@@ -498,11 +504,14 @@ export default function AboutPage() {
           >
             <motion.h2
               variants={fadeInUp}
-              className="text-2xl md:text-3xl font-bold text-background mb-2"
+              className="text-2xl md:text-3xl font-bold text-white mb-2"
             >
               Our Impact in Numbers
             </motion.h2>
-            <motion.p variants={fadeInUp} className="text-background/60">
+            <motion.p
+              variants={fadeInUp}
+              className="text-blue-100 dark:text-gray-400"
+            >
               Join thousands who have found their perfect activity companions
             </motion.p>
           </motion.div>
@@ -520,13 +529,15 @@ export default function AboutPage() {
                 variants={fadeInUp}
                 className="text-center p-6"
               >
-                <div className="w-12 h-12 bg-background/10 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <stat.icon className="w-6 h-6 text-primary" />
+                <div className="w-12 h-12 bg-white/10 dark:bg-white/5 rounded-xl flex items-center justify-center mx-auto mb-3 border border-transparent dark:border-gray-800">
+                  <stat.icon className="w-6 h-6 text-white dark:text-gray-300" />
                 </div>
-                <p className="text-3xl md:text-4xl font-bold text-background mb-1">
+                <p className="text-3xl md:text-4xl font-bold text-white mb-1">
                   {stat.number}
                 </p>
-                <p className="text-background/60 text-sm">{stat.label}</p>
+                <p className="text-blue-100 dark:text-gray-400 text-sm">
+                  {stat.label}
+                </p>
               </motion.div>
             ))}
           </motion.div>
@@ -534,7 +545,7 @@ export default function AboutPage() {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 lg:py-28 bg-muted">
+      <section className="py-20 lg:py-28 bg-muted dark:bg-gray-950/50">
         <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
@@ -573,7 +584,7 @@ export default function AboutPage() {
           >
             {teamMembers.map((member, index) => (
               <motion.div key={index} variants={fadeInUp}>
-                <Card className="border-border shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden bg-card group">
+                <Card className="border-border shadow-sm hover:shadow-md dark:hover:shadow-black/30 transition-all duration-300 overflow-hidden bg-card group">
                   <CardContent className="p-0">
                     <div className="relative overflow-hidden">
                       <Image
@@ -583,19 +594,19 @@ export default function AboutPage() {
                         height={400}
                         className="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-foreground/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                       {/* Social Links */}
                       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
                         <a
                           href={member.linkedin}
-                          className="w-9 h-9 bg-background rounded-full flex items-center justify-center hover:bg-muted transition-colors"
+                          className="w-9 h-9 bg-background dark:bg-gray-900 rounded-full flex items-center justify-center hover:bg-muted dark:hover:bg-gray-800 transition-colors"
                         >
                           <Linkedin className="w-4 h-4 text-foreground" />
                         </a>
                         <a
                           href={member.twitter}
-                          className="w-9 h-9 bg-background rounded-full flex items-center justify-center hover:bg-muted transition-colors"
+                          className="w-9 h-9 bg-background dark:bg-gray-900 rounded-full flex items-center justify-center hover:bg-muted dark:hover:bg-gray-800 transition-colors"
                         >
                           <Twitter className="w-4 h-4 text-foreground" />
                         </a>
@@ -630,7 +641,7 @@ export default function AboutPage() {
             variants={fadeIn}
             className="max-w-3xl mx-auto"
           >
-            <Card className="border-border shadow-lg bg-card overflow-hidden">
+            <Card className="border-border shadow-lg dark:shadow-black/30 bg-card overflow-hidden">
               <CardContent className="p-8 md:p-10">
                 <div className="flex justify-center mb-6">
                   <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center">
@@ -660,7 +671,7 @@ export default function AboutPage() {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className="w-4 h-4 text-yellow-400 fill-yellow-400"
+                        className="w-4 h-4 text-yellow-400 fill-yellow-400 dark:text-yellow-500 dark:fill-yellow-500"
                       />
                     ))}
                   </div>
@@ -672,7 +683,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-primary">
+      <section className="py-16 bg-primary dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-t dark:border-gray-800">
         <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
@@ -683,14 +694,14 @@ export default function AboutPage() {
           >
             <motion.h2
               variants={fadeInUp}
-              className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4"
+              className="text-3xl md:text-4xl font-bold text-primary-foreground dark:text-white mb-4"
             >
               Ready to Start Your Next{" "}
               <span className="text-orange-300">Adventure?</span>
             </motion.h2>
             <motion.p
               variants={fadeInUp}
-              className="text-lg text-primary-foreground/80 mb-8 max-w-xl mx-auto"
+              className="text-lg text-primary-foreground/80 dark:text-gray-400 mb-8 max-w-xl mx-auto"
             >
               Join Meet & Go today and discover amazing events and people in
               your area.
@@ -702,7 +713,7 @@ export default function AboutPage() {
               <Link href="/register">
                 <Button
                   size="lg"
-                  className="bg-background text-foreground hover:bg-background/90 px-8 py-6 rounded-full text-base font-semibold transition-all duration-300"
+                  className="bg-background dark:bg-white text-foreground dark:text-gray-900 hover:bg-background/90 dark:hover:bg-gray-200 px-8 py-6 rounded-full text-base font-semibold transition-all duration-300"
                 >
                   Get Started Free
                   <Zap className="ml-2 w-5 h-5" />
@@ -712,7 +723,7 @@ export default function AboutPage() {
                 <Button
                   size="lg"
                   variant="secondary"
-                  className="bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground border border-primary-foreground/20 px-8 py-6 rounded-full text-base font-semibold transition-all duration-300"
+                  className="bg-primary-foreground/10 dark:bg-white/5 hover:bg-primary-foreground/20 dark:hover:bg-white/10 text-primary-foreground dark:text-white border border-primary-foreground/20 dark:border-gray-700 px-8 py-6 rounded-full text-base font-semibold transition-all duration-300"
                 >
                   Browse Events
                   <ArrowRight className="ml-2 w-5 h-5" />
@@ -721,7 +732,7 @@ export default function AboutPage() {
             </motion.div>
             <motion.p
               variants={fadeInUp}
-              className="text-primary-foreground/70 mt-6 text-sm"
+              className="text-primary-foreground/70 dark:text-gray-500 mt-6 text-sm"
             >
               ✨ Free to join • 🔒 Secure platform • 🌍 Events worldwide
             </motion.p>

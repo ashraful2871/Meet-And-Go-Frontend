@@ -2,7 +2,7 @@ import { Calendar, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="border-t bg-gray-50">
+    <footer className="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
       <div className="container mx-auto px-4 py-12">
         <div className="grid gap-8 md:grid-cols-4">
           {/* Brand */}
@@ -11,9 +11,11 @@ export default function Footer() {
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 text-white">
                 <Calendar className="h-6 w-6" />
               </div>
-              <span className="text-xl font-bold text-gray-900">Meet & Go</span>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">
+                Meet & Go
+              </span>
             </div>
-            <p className="mb-4 text-sm text-gray-600">
+            <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
               Connect with like-minded people for amazing events and
               experiences.
             </p>
@@ -21,25 +23,25 @@ export default function Footer() {
             <div className="flex gap-3">
               <a
                 href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-200 text-gray-600 transition-colors hover:bg-blue-600 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white"
               >
                 <Facebook className="h-4 w-4" />
               </a>
               <a
                 href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-200 text-gray-600 transition-colors hover:bg-blue-600 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white"
               >
                 <Twitter className="h-4 w-4" />
               </a>
               <a
                 href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-200 text-gray-600 transition-colors hover:bg-blue-600 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white"
               >
                 <Instagram className="h-4 w-4" />
               </a>
               <a
                 href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-200 text-gray-600 transition-colors hover:bg-blue-600 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white"
               >
                 <Linkedin className="h-4 w-4" />
               </a>
@@ -48,12 +50,14 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="mb-4 font-semibold text-gray-900">Company</h3>
+            <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
+              Company
+            </h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 transition-colors hover:text-blue-600"
+                  className="text-gray-600 dark:text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   About Us
                 </a>
@@ -61,7 +65,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 transition-colors hover:text-blue-600"
+                  className="text-gray-600 dark:text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   Careers
                 </a>
@@ -69,7 +73,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 transition-colors hover:text-blue-600"
+                  className="text-gray-600 dark:text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   Blog
                 </a>
@@ -77,7 +81,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 transition-colors hover:text-blue-600"
+                  className="text-gray-600 dark:text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   Contact
                 </a>
@@ -87,12 +91,14 @@ export default function Footer() {
 
           {/* Support */}
           <div>
-            <h3 className="mb-4 font-semibold text-gray-900">Support</h3>
+            <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
+              Support
+            </h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 transition-colors hover:text-blue-600"
+                  className="text-gray-600 dark:text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   Help Center
                 </a>
@@ -100,7 +106,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 transition-colors hover:text-blue-600"
+                  className="text-gray-600 dark:text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   Safety
                 </a>
@@ -108,7 +114,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 transition-colors hover:text-blue-600"
+                  className="text-gray-600 dark:text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   Community Guidelines
                 </a>
@@ -116,7 +122,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 transition-colors hover:text-blue-600"
+                  className="text-gray-600 dark:text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   FAQs
                 </a>
@@ -126,12 +132,14 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <h3 className="mb-4 font-semibold text-gray-900">Legal</h3>
+            <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
+              Legal
+            </h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 transition-colors hover:text-blue-600"
+                  className="text-gray-600 dark:text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   Privacy Policy
                 </a>
@@ -139,7 +147,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 transition-colors hover:text-blue-600"
+                  className="text-gray-600 dark:text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   Terms of Service
                 </a>
@@ -147,7 +155,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 transition-colors hover:text-blue-600"
+                  className="text-gray-600 dark:text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   Cookie Policy
                 </a>
@@ -155,7 +163,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 transition-colors hover:text-blue-600"
+                  className="text-gray-600 dark:text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   Refund Policy
                 </a>
@@ -165,7 +173,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 border-t pt-8 text-center text-sm text-gray-600">
+        <div className="mt-12 border-t border-gray-200 dark:border-gray-800 pt-8 text-center text-sm text-gray-600 dark:text-gray-400">
           <p>© {new Date().getFullYear()} Meet & Go. All rights reserved.</p>
         </div>
       </div>

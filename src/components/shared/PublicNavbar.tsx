@@ -32,6 +32,7 @@ import { getCookie } from "@/service/auth/cookiesHandler";
 import LogoutButton from "./LogoutButton";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { UserRole } from "@/service/auth/auth-utils";
+import { ModeToggle } from "./ModeToggle";
 
 interface DecodedToken extends JwtPayload {
   role: UserRole;
@@ -95,7 +96,7 @@ const PublicNavbar = async () => {
       case "HOST":
         return "/dashboard/host";
       case "USER":
-        return "/dashboard/user";
+        return "/dashboard";
       default:
         return "/login";
     }
@@ -127,9 +128,9 @@ const PublicNavbar = async () => {
             </Link>
           ))}
         </nav>
-
         {/* Right: User Menu or Login (Desktop) */}
         <div className="hidden md:flex items-center gap-3">
+          <ModeToggle />
           {accessToken && userRole !== "GUEST" ? (
             <>
               {/* Dashboard Link */}
@@ -194,7 +195,7 @@ const PublicNavbar = async () => {
                   {userRole === "HOST" && (
                     <>
                       <DropdownMenuItem asChild>
-                        <Link href="/dashboard/host">
+                        <Link href="/dashboard">
                           <LayoutDashboard className="mr-2 h-4 w-4" />
                           Host Dashboard
                         </Link>
@@ -224,13 +225,13 @@ const PublicNavbar = async () => {
                   {userRole === "USER" && (
                     <>
                       <DropdownMenuItem asChild>
-                        <Link href="/dashboard/user">
+                        <Link href="/dashboard">
                           <LayoutDashboard className="mr-2 h-4 w-4" />
                           My Dashboard
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
-                        <Link href="/dashboard/user/bookings">
+                        <Link href="/dashboard/my-booked-events">
                           <Calendar className="mr-2 h-4 w-4" />
                           My Bookings
                         </Link>
@@ -241,19 +242,19 @@ const PublicNavbar = async () => {
 
                   {/* Common menu items */}
                   <DropdownMenuItem asChild>
-                    <Link href="/dashboard/profile">
+                    <Link href="/my-profile">
                       <User className="mr-2 h-4 w-4" />
                       Profile
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/dashboard/settings">
+                    <Link href="/dashboard">
                       <Settings className="mr-2 h-4 w-4" />
                       Settings
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/dashboard/change-password">
+                    <Link href="/change-password">
                       <Settings className="mr-2 h-4 w-4" />
                       Change Password
                     </Link>

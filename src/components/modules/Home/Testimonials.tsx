@@ -28,14 +28,14 @@ export default function Testimonials() {
   ];
 
   return (
-    <section className="bg-gray-50 py-20">
+    <section className="bg-gray-50 dark:bg-black py-20 transition-colors duration-300">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">
             What Our Members Say
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600">
+          <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400">
             Real stories from people who found their tribe
           </p>
         </div>
@@ -43,38 +43,43 @@ export default function Testimonials() {
         {/* Testimonials Grid */}
         <div className="grid gap-8 md:grid-cols-3">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="relative overflow-hidden">
+            <Card
+              key={index}
+              className="relative overflow-hidden border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 transition-colors"
+            >
               <CardContent className="p-6">
                 {/* Quote Icon */}
-                <Quote className="mb-4 h-10 w-10 text-blue-200" />
+                <Quote className="mb-4 h-10 w-10 text-blue-200 dark:text-blue-900" />
 
                 {/* Rating */}
                 <div className="mb-4 flex gap-1">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star
                       key={i}
-                      className="h-5 w-5 fill-yellow-400 text-yellow-400"
+                      className="h-5 w-5 fill-yellow-400 text-yellow-400 dark:fill-yellow-500 dark:text-yellow-500"
                     />
                   ))}
                 </div>
 
                 {/* Testimonial Text */}
-                <p className="mb-6 text-gray-700">{testimonial.text}</p>
+                <p className="mb-6 text-gray-700 dark:text-gray-300">
+                  {testimonial.text}
+                </p>
 
                 {/* User Info */}
                 <div className="flex items-center gap-3">
                   <Image
                     src={testimonial.image}
                     alt={testimonial.name}
-                    className="h-12 w-12 rounded-full object-cover"
+                    className="h-12 w-12 rounded-full object-cover ring-2 ring-transparent dark:ring-gray-800"
                     width={48}
                     height={48}
                   />
                   <div>
-                    <div className="font-semibold text-gray-900">
+                    <div className="font-semibold text-gray-900 dark:text-white">
                       {testimonial.name}
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
                       {testimonial.role}
                     </div>
                   </div>

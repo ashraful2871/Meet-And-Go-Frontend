@@ -197,11 +197,11 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background transition-colors duration-300">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-foreground py-16 lg:py-24">
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-purple-600 dark:from-gray-950 dark:to-black py-16 lg:py-24 transition-colors duration-300">
         {/* Subtle Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 opacity-5 dark:opacity-10">
           <div
             className="absolute inset-0"
             style={{
@@ -209,6 +209,10 @@ export default function ContactPage() {
             }}
           />
         </div>
+
+        {/* Decorative Elements */}
+        <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-white/10 dark:bg-purple-500/10 blur-3xl" />
+        <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-white/10 dark:bg-blue-500/10 blur-3xl" />
 
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
@@ -220,7 +224,7 @@ export default function ContactPage() {
             <motion.div variants={fadeInUp}>
               <Badge
                 variant="secondary"
-                className="bg-background/10 text-background border-background/20 mb-6 px-4 py-2 text-sm font-medium"
+                className="bg-white/10 dark:bg-white/5 text-white border-white/20 dark:border-gray-700 mb-6 px-4 py-2 text-sm font-medium"
               >
                 <MessageSquare className="w-4 h-4 mr-2" />
                 Get In Touch
@@ -229,15 +233,17 @@ export default function ContactPage() {
 
             <motion.h1
               variants={fadeInUp}
-              className="text-4xl md:text-5xl font-bold text-background mb-4 leading-tight"
+              className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight"
             >
               We&apos;d Love to{" "}
-              <span className="text-primary">Hear From You</span>
+              <span className="text-orange-400 dark:text-orange-300">
+                Hear From You
+              </span>
             </motion.h1>
 
             <motion.p
               variants={fadeInUp}
-              className="text-lg text-background/70 max-w-xl mx-auto leading-relaxed"
+              className="text-lg text-blue-100 dark:text-gray-400 max-w-xl mx-auto leading-relaxed"
             >
               Have questions about Meet & Go? Need help with an event? Our
               friendly team is here to assist you every step of the way.
@@ -261,7 +267,7 @@ export default function ContactPage() {
           >
             {contactInfo.map((info, index) => (
               <motion.div key={index} variants={fadeInUp}>
-                <Card className="h-full border-border shadow-sm hover:shadow-md transition-all duration-300 bg-card group">
+                <Card className="h-full border-border shadow-sm hover:shadow-md dark:hover:shadow-black/30 transition-all duration-300 bg-card group">
                   <CardContent className="p-6 text-center">
                     <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                       <info.icon className="w-6 h-6 text-primary" />
@@ -287,7 +293,7 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form & Map Section */}
-      <section className="py-16 bg-muted">
+      <section className="py-16 bg-muted dark:bg-gray-950/50">
         <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
@@ -298,7 +304,7 @@ export default function ContactPage() {
           >
             {/* Contact Form */}
             <motion.div variants={fadeInUp}>
-              <Card className="border-border shadow-lg bg-card">
+              <Card className="border-border shadow-lg dark:shadow-black/30 bg-card">
                 <CardContent className="p-8">
                   <div className="mb-8">
                     <h2 className="text-2xl font-bold text-card-foreground mb-2">
@@ -313,7 +319,9 @@ export default function ContactPage() {
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="name">Full Name</Label>
+                        <Label htmlFor="name" className="text-foreground">
+                          Full Name
+                        </Label>
                         <Input
                           id="name"
                           name="name"
@@ -321,11 +329,13 @@ export default function ContactPage() {
                           value={formData.name}
                           onChange={handleInputChange}
                           required
-                          className="bg-background"
+                          className="bg-background border-border"
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="email">Email Address</Label>
+                        <Label htmlFor="email" className="text-foreground">
+                          Email Address
+                        </Label>
                         <Input
                           id="email"
                           name="email"
@@ -334,21 +344,23 @@ export default function ContactPage() {
                           value={formData.email}
                           onChange={handleInputChange}
                           required
-                          className="bg-background"
+                          className="bg-background border-border"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="subject">Subject</Label>
+                      <Label htmlFor="subject" className="text-foreground">
+                        Subject
+                      </Label>
                       <Select
                         value={formData.subject}
                         onValueChange={handleSubjectChange}
                       >
-                        <SelectTrigger className="bg-background">
+                        <SelectTrigger className="bg-background border-border">
                           <SelectValue placeholder="Select a topic" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="bg-card border-border">
                           <SelectItem value="general">
                             General Inquiry
                           </SelectItem>
@@ -368,7 +380,9 @@ export default function ContactPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="message">Message</Label>
+                      <Label htmlFor="message" className="text-foreground">
+                        Message
+                      </Label>
                       <Textarea
                         id="message"
                         name="message"
@@ -377,7 +391,7 @@ export default function ContactPage() {
                         value={formData.message}
                         onChange={handleInputChange}
                         required
-                        className="bg-background resize-none"
+                        className="bg-background border-border resize-none"
                       />
                     </div>
 
@@ -424,8 +438,8 @@ export default function ContactPage() {
             {/* Map & Additional Info */}
             <motion.div variants={fadeInUp} className="space-y-6">
               {/* Map Placeholder */}
-              <Card className="border-border shadow-lg bg-card overflow-hidden">
-                <div className="h-64 bg-muted relative">
+              <Card className="border-border shadow-lg dark:shadow-black/30 bg-card overflow-hidden">
+                <div className="h-64 bg-muted dark:bg-gray-900 relative">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0968173775!2d-122.4194!3d37.7749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809c6c8f4459%3A0xb10ed6d9b5050fa5!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1234567890"
                     width="100%"
@@ -434,7 +448,7 @@ export default function ContactPage() {
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    className="grayscale hover:grayscale-0 transition-all duration-500"
+                    className="grayscale hover:grayscale-0 transition-all duration-500 dark:opacity-80 dark:hover:opacity-100"
                   />
                 </div>
                 <CardContent className="p-6">
@@ -448,7 +462,7 @@ export default function ContactPage() {
               </Card>
 
               {/* Social Links */}
-              <Card className="border-border shadow-lg bg-card">
+              <Card className="border-border shadow-lg dark:shadow-black/30 bg-card">
                 <CardContent className="p-6">
                   <h3 className="text-lg font-semibold text-card-foreground mb-4">
                     Connect With Us
@@ -463,7 +477,7 @@ export default function ContactPage() {
                         key={index}
                         href={social.href}
                         aria-label={social.label}
-                        className="w-10 h-10 bg-muted rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                        className="w-10 h-10 bg-muted dark:bg-gray-800 rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                       >
                         <social.icon className="w-5 h-5" />
                       </a>
@@ -516,7 +530,7 @@ export default function ContactPage() {
             {supportOptions.map((option, index) => (
               <motion.div key={index} variants={fadeInUp}>
                 <Card
-                  className={`h-full border ${option.borderColor} shadow-sm hover:shadow-md transition-all duration-300 bg-card`}
+                  className={`h-full border ${option.borderColor} shadow-sm hover:shadow-md dark:hover:shadow-black/30 transition-all duration-300 bg-card`}
                 >
                   <CardContent className="p-6 text-center">
                     <div
@@ -545,7 +559,7 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 bg-muted">
+      <section className="py-16 bg-muted dark:bg-gray-950/50">
         <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
@@ -555,7 +569,7 @@ export default function ContactPage() {
             className="text-center mb-12"
           >
             <motion.div variants={fadeInUp}>
-              <Badge className="bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400 border-0 mb-4 font-medium">
+              <Badge className="bg-orange-100 dark:bg-orange-950 text-orange-600 dark:text-orange-400 border-0 mb-4 font-medium">
                 <HelpCircle className="w-4 h-4 mr-2" />
                 FAQ
               </Badge>
@@ -581,7 +595,7 @@ export default function ContactPage() {
             variants={fadeIn}
             className="max-w-3xl mx-auto"
           >
-            <Card className="border-border shadow-lg bg-card">
+            <Card className="border-border shadow-lg dark:shadow-black/30 bg-card">
               <CardContent className="p-6">
                 <Accordion type="single" collapsible className="w-full">
                   {faqs.map((faq, index) => (
@@ -606,7 +620,7 @@ export default function ContactPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-primary">
+      <section className="py-16 bg-primary dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-t dark:border-gray-800">
         <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
@@ -617,13 +631,13 @@ export default function ContactPage() {
           >
             <motion.h2
               variants={fadeInUp}
-              className="text-3xl font-bold text-primary-foreground mb-4"
+              className="text-3xl font-bold text-primary-foreground dark:text-white mb-4"
             >
               Still Have Questions?
             </motion.h2>
             <motion.p
               variants={fadeInUp}
-              className="text-primary-foreground/80 mb-8"
+              className="text-primary-foreground/80 dark:text-gray-400 mb-8"
             >
               Can&apos;t find what you&apos;re looking for? Our support team is
               just a message away.
@@ -634,7 +648,7 @@ export default function ContactPage() {
             >
               <Button
                 size="lg"
-                className="bg-background text-foreground hover:bg-background/90 px-8 py-6 rounded-full font-semibold transition-all duration-300"
+                className="bg-background dark:bg-white text-foreground dark:text-gray-900 hover:bg-background/90 dark:hover:bg-gray-200 px-8 py-6 rounded-full font-semibold transition-all duration-300"
               >
                 <Mail className="mr-2 w-5 h-5" />
                 Email Support
@@ -642,7 +656,7 @@ export default function ContactPage() {
               <Button
                 size="lg"
                 variant="secondary"
-                className="bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground border border-primary-foreground/20 px-8 py-6 rounded-full font-semibold transition-all duration-300"
+                className="bg-primary-foreground/10 dark:bg-white/5 hover:bg-primary-foreground/20 dark:hover:bg-white/10 text-primary-foreground dark:text-white border border-primary-foreground/20 dark:border-gray-700 px-8 py-6 rounded-full font-semibold transition-all duration-300"
               >
                 <MessageSquare className="mr-2 w-5 h-5" />
                 Start Live Chat

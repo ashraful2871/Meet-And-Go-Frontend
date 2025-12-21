@@ -49,14 +49,14 @@ export default function Categories() {
   ];
 
   return (
-    <section className="bg-white py-20">
+    <section className="bg-white dark:bg-black py-20 transition-colors duration-300">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">
             Explore Categories
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600">
+          <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400">
             Find events that match your interests and passions
           </p>
         </div>
@@ -66,23 +66,23 @@ export default function Categories() {
           {categories.map((category, index) => (
             <Card
               key={index}
-              className="group cursor-pointer overflow-hidden transition-all hover:shadow-lg"
+              className="group cursor-pointer overflow-hidden border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 transition-all hover:shadow-lg dark:hover:shadow-black/30"
             >
               <CardContent className="p-6">
                 <div className="flex items-center gap-4">
                   {/* Icon */}
                   <div
-                    className={`flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br ${category.color} text-white shadow-md transition-transform group-hover:scale-110`}
+                    className={`flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br ${category.color} text-white shadow-md dark:shadow-lg dark:shadow-black/20 transition-transform group-hover:scale-110`}
                   >
                     <category.icon className="h-8 w-8" />
                   </div>
 
                   {/* Info */}
                   <div>
-                    <h3 className="mb-1 text-lg font-bold text-gray-900">
+                    <h3 className="mb-1 text-lg font-bold text-gray-900 dark:text-white">
                       {category.name}
                     </h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       {category.count} events
                     </p>
                   </div>
