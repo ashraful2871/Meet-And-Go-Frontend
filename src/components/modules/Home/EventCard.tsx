@@ -60,7 +60,7 @@ export default function EventCard({ event }: { event: IEvents }) {
       <Link href={`/events/event/${event.id}`} className="block">
         <div className="relative h-48 overflow-hidden bg-muted">
           <Image
-            src={DEFAULT_EVENT_IMAGE}
+            src={event.image || DEFAULT_EVENT_IMAGE}
             alt={event.name}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"

@@ -24,10 +24,13 @@ import {
   Linkedin,
   User,
   Award,
+  Loader2,
 } from "lucide-react";
 import Image from "next/image";
 import { IEvents } from "@/types/event.interface";
 import { useState } from "react";
+import { joinEvent } from "@/service/event/join-event";
+import { toast } from "sonner";
 
 interface EventDetailsContentProps {
   event: IEvents;
@@ -38,6 +41,7 @@ const DEFAULT_EVENT_IMAGE =
 
 const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
   const [isLiked, setIsLiked] = useState(false);
+  const [isJoining, setIsJoining] = useState(false);
 
   // Format date
   const formatDate = (dateString: string) => {
@@ -50,14 +54,31 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
     });
   };
 
-  // Get status badge
+  // Get status badge with dark mode support
   const getStatusBadge = (status: string) => {
     const statusConfig = {
-      OPEN: { label: "Open", color: "bg-green-100 text-green-700" },
-      CLOSED: { label: "Closed", color: "bg-red-100 text-red-700" },
-      FULL: { label: "Full", color: "bg-orange-100 text-orange-700" },
-      COMPLETED: { label: "Completed", color: "bg-blue-100 text-blue-700" },
-      CANCELLED: { label: "Cancelled", color: "bg-gray-100 text-gray-700" },
+      OPEN: {
+        label: "Open",
+        color:
+          "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-400",
+      },
+      CLOSED: {
+        label: "Closed",
+        color: "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400",
+      },
+      FULL: {
+        label: "Full",
+        color:
+          "bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-400",
+      },
+      COMPLETED: {
+        label: "Completed",
+        color: "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-400",
+      },
+      CANCELLED: {
+        label: "Cancelled",
+        color: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400",
+      },
     };
     return (
       statusConfig[status as keyof typeof statusConfig] || statusConfig.OPEN
@@ -76,12 +97,45 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
 
   const status = getStatusBadge(event.status);
 
+  const handleJoinEvent = async (id: string) => {
+    try {
+      setIsJoining(true);
+      const result = await joinEvent(id);
+
+      if (result.success && result.data?.checkoutUrl) {
+        // Show toast before redirecting
+        toast.message("Redirecting to payment...", {
+          description: "You'll be redirected to complete your payment.",
+        });
+
+        // Redirect to Stripe checkout
+        window.location.href = result.data.checkoutUrl;
+      } else if (result.success && !result.data?.checkoutUrl) {
+        // Free event - no payment needed
+        toast.message("Successfully joined!", {
+          description: "You have successfully joined this event.",
+        });
+      } else {
+        // Handle error
+        toast.error("Failed to join event", {
+          description:
+            result.message || "Something went wrong. Please try again.",
+        });
+      }
+    } catch (error) {
+      console.error("Error joining event:", error);
+      toast.error("Failed to join event. Please try again.");
+    } finally {
+      setIsJoining(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background transition-colors duration-300">
       {/* Hero Image Section */}
-      <div className="relative h-[400px] w-full overflow-hidden bg-muted md:h-[500px]">
+      <div className="relative h-[400px] w-full overflow-hidden bg-muted dark:bg-gray-900 md:h-[500px]">
         <Image
-          src={DEFAULT_EVENT_IMAGE}
+          src={event.image || DEFAULT_EVENT_IMAGE}
           alt={event.name}
           fill
           priority
@@ -95,21 +149,23 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
           <Button
             size="icon"
             variant="secondary"
-            className="h-10 w-10 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white"
+            className="h-10 w-10 rounded-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-800"
             onClick={() => setIsLiked(!isLiked)}
           >
             <Heart
               className={`h-5 w-5 ${
-                isLiked ? "fill-red-500 text-red-500" : ""
+                isLiked
+                  ? "fill-red-500 text-red-500"
+                  : "text-gray-700 dark:text-gray-300"
               }`}
             />
           </Button>
           <Button
             size="icon"
             variant="secondary"
-            className="h-10 w-10 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white"
+            className="h-10 w-10 rounded-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-800"
           >
-            <Share2 className="h-5 w-5" />
+            <Share2 className="h-5 w-5 text-gray-700 dark:text-gray-300" />
           </Button>
         </div>
 
@@ -128,7 +184,9 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
             {/* Title and Status */}
             <div className="mb-6">
               <div className="mb-3 flex items-start justify-between gap-4">
-                <h1 className="text-3xl font-bold md:text-4xl">{event.name}</h1>
+                <h1 className="text-3xl font-bold text-foreground md:text-4xl">
+                  {event.name}
+                </h1>
                 <Badge className={status.color}>{status.label}</Badge>
               </div>
               <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
@@ -140,7 +198,7 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                 </div>
                 {event.host.reviewCount > 0 && (
                   <div className="flex items-center gap-2">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 dark:fill-yellow-500 dark:text-yellow-500" />
                     <span className="font-medium text-foreground">
                       {event.host.rating.toFixed(1)}
                     </span>
@@ -152,56 +210,62 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
 
             {/* Key Details Cards */}
             <div className="mb-8 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-              <Card>
+              <Card className="border-border bg-card">
                 <CardContent className="flex items-center gap-3 p-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
-                    <Calendar className="h-5 w-5 text-blue-600" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-950">
+                    <Calendar className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground">Date</p>
-                    <p className="font-semibold">{formatDate(event.date)}</p>
+                    <p className="font-semibold text-card-foreground">
+                      {formatDate(event.date)}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-border bg-card">
                 <CardContent className="flex items-center gap-3 p-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-100">
-                    <Clock className="h-5 w-5 text-purple-600" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-950">
+                    <Clock className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground">Time</p>
-                    <p className="font-semibold">{event.time}</p>
+                    <p className="font-semibold text-card-foreground">
+                      {event.time}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-border bg-card">
                 <CardContent className="flex items-center gap-3 p-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
-                    <Users className="h-5 w-5 text-green-600" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-950">
+                    <Users className="h-5 w-5 text-green-600 dark:text-green-400" />
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground">
                       Participants
                     </p>
-                    <p className="font-semibold">
+                    <p className="font-semibold text-card-foreground">
                       {event.minParticipants}-{event.maxParticipants}
                     </p>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-border bg-card">
                 <CardContent className="flex items-center gap-3 p-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-100">
-                    <DollarSign className="h-5 w-5 text-orange-600" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-950">
+                    <DollarSign className="h-5 w-5 text-orange-600 dark:text-orange-400" />
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground">Fee</p>
-                    <p className="font-semibold">
+                    <p className="font-semibold text-card-foreground">
                       {event.joiningFee === 0 ? (
-                        <span className="text-green-600">Free</span>
+                        <span className="text-green-600 dark:text-green-400">
+                          Free
+                        </span>
                       ) : (
                         `$${event.joiningFee}`
                       )}
@@ -212,9 +276,11 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
             </div>
 
             {/* Description */}
-            <Card className="mb-8">
+            <Card className="mb-8 border-border bg-card">
               <CardHeader>
-                <CardTitle>About This Event</CardTitle>
+                <CardTitle className="text-card-foreground">
+                  About This Event
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="leading-relaxed text-muted-foreground">
@@ -224,9 +290,9 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
             </Card>
 
             {/* Location Details */}
-            <Card className="mb-8">
+            <Card className="mb-8 border-border bg-card">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-card-foreground">
                   <MapPinned className="h-5 w-5" />
                   Location
                 </CardTitle>
@@ -235,7 +301,9 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                 <div className="flex items-start gap-3">
                   <MapPin className="h-5 w-5 shrink-0 text-muted-foreground" />
                   <div>
-                    <p className="font-medium">{event.location}</p>
+                    <p className="font-medium text-card-foreground">
+                      {event.location}
+                    </p>
                     <p className="text-sm text-muted-foreground">
                       {event.city}, {event.country}
                     </p>
@@ -246,9 +314,9 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
 
             {/* Reviews Section */}
             {event.reviews && event.reviews.length > 0 && (
-              <Card>
+              <Card className="border-border bg-card">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2 text-card-foreground">
                     <Star className="h-5 w-5" />
                     Reviews ({event.reviews.length})
                   </CardTitle>
@@ -263,8 +331,8 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                               key={i}
                               className={`h-4 w-4 ${
                                 i < review.rating
-                                  ? "fill-yellow-400 text-yellow-400"
-                                  : "text-gray-300"
+                                  ? "fill-yellow-400 text-yellow-400 dark:fill-yellow-500 dark:text-yellow-500"
+                                  : "text-gray-300 dark:text-gray-600"
                               }`}
                             />
                           ))}
@@ -274,7 +342,7 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                         </span>
                       </div>
                       <p className="text-muted-foreground">{review.comment}</p>
-                      <Separator />
+                      <Separator className="bg-border" />
                     </div>
                   ))}
                 </CardContent>
@@ -285,12 +353,14 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
           {/* Sidebar - Right Column */}
           <div className="space-y-6 lg:sticky lg:top-4 lg:self-start">
             {/* Booking Card */}
-            <Card>
+            <Card className="border-border bg-card shadow-lg dark:shadow-black/30">
               <CardContent className="p-6">
                 <div className="mb-6 text-center">
-                  <div className="mb-2 text-4xl font-bold">
+                  <div className="mb-2 text-4xl font-bold text-card-foreground">
                     {event.joiningFee === 0 ? (
-                      <span className="text-green-600">Free</span>
+                      <span className="text-green-600 dark:text-green-400">
+                        Free
+                      </span>
                     ) : (
                       <>${event.joiningFee}</>
                     )}
@@ -298,40 +368,54 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                   <p className="text-sm text-muted-foreground">per person</p>
                 </div>
 
-                <div className="mb-6 space-y-3 rounded-lg bg-muted/50 p-4">
+                <div className="mb-6 space-y-3 rounded-lg bg-muted/50 dark:bg-gray-800/50 p-4">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">
                       Booking Deadline
                     </span>
-                    <span className="font-medium">
+                    <span className="font-medium text-card-foreground">
                       {event.eventBookingDeadline}
                     </span>
                   </div>
-                  <Separator />
+                  <Separator className="bg-border" />
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">
                       Spots Available
                     </span>
-                    <span className="font-medium">
+                    <span className="font-medium text-card-foreground">
                       {event.maxParticipants - event.minParticipants} left
                     </span>
                   </div>
                 </div>
 
-                <Button className="w-full" size="lg">
-                  Join This Event
+                <Button
+                  onClick={() => handleJoinEvent(event.id)}
+                  className="w-full cursor-pointer"
+                  size="lg"
+                  disabled={isJoining || event.status !== "OPEN"}
+                >
+                  {isJoining ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    "Join This Event"
+                  )}
                 </Button>
 
                 <p className="mt-4 text-center text-xs text-muted-foreground">
-                  You won&apos;t be charged yet
+                  {event.joiningFee > 0
+                    ? "You'll be redirected to complete payment"
+                    : "You won't be charged"}
                 </p>
               </CardContent>
             </Card>
 
             {/* Host Information Card */}
-            <Card>
+            <Card className="border-border bg-card">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-card-foreground">
                   <User className="h-5 w-5" />
                   Hosted By
                 </CardTitle>
@@ -339,15 +423,17 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
               <CardContent className="space-y-4">
                 {/* Host Profile */}
                 <div className="flex items-start gap-4">
-                  <Avatar className="h-16 w-16">
+                  <Avatar className="h-16 w-16 border-2 border-border">
                     <AvatarImage src={event.host.profilePhoto || undefined} />
-                    <AvatarFallback className="text-lg">
+                    <AvatarFallback className="text-lg bg-muted text-muted-foreground">
                       {getInitials(event.host.name)}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
                     <div className="mb-1 flex items-center gap-2">
-                      <h3 className="font-semibold">{event.host.name}</h3>
+                      <h3 className="font-semibold text-card-foreground">
+                        {event.host.name}
+                      </h3>
                       {event.host.isVerified && (
                         <CheckCircle2 className="h-4 w-4 text-primary" />
                       )}
@@ -359,9 +445,9 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                 </div>
 
                 {/* Host Stats */}
-                <div className="grid grid-cols-2 gap-4 rounded-lg bg-muted/50 p-4">
+                <div className="grid grid-cols-2 gap-4 rounded-lg bg-muted/50 dark:bg-gray-800/50 p-4">
                   <div>
-                    <p className="text-2xl font-bold">
+                    <p className="text-2xl font-bold text-card-foreground">
                       {event.host.totalEventsHosted}
                     </p>
                     <p className="text-xs text-muted-foreground">
@@ -370,8 +456,10 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                   </div>
                   <div>
                     <div className="flex items-center gap-1">
-                      <p className="text-2xl font-bold">{event.host.rating}</p>
-                      <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                      <p className="text-2xl font-bold text-card-foreground">
+                        {event.host.rating}
+                      </p>
+                      <Star className="h-5 w-5 fill-yellow-400 text-yellow-400 dark:fill-yellow-500 dark:text-yellow-500" />
                     </div>
                     <p className="text-xs text-muted-foreground">
                       {event.host.reviewCount} Reviews
@@ -393,7 +481,9 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm">
                       <Award className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">Experience:</span>
+                      <span className="font-medium text-card-foreground">
+                        Experience:
+                      </span>
                     </div>
                     <p className="text-sm text-muted-foreground">
                       {event.host.experience}
@@ -404,12 +494,18 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                 {/* Specialties */}
                 {event.host.specialties && (
                   <div>
-                    <p className="mb-2 text-sm font-medium">Specialties:</p>
+                    <p className="mb-2 text-sm font-medium text-card-foreground">
+                      Specialties:
+                    </p>
                     <div className="flex flex-wrap gap-2">
                       {event.host.specialties
                         .split(",")
                         .map((specialty, index) => (
-                          <Badge key={index} variant="secondary">
+                          <Badge
+                            key={index}
+                            variant="secondary"
+                            className="bg-muted text-muted-foreground"
+                          >
                             {specialty.trim()}
                           </Badge>
                         ))}
@@ -417,11 +513,13 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                   </div>
                 )}
 
-                <Separator />
+                <Separator className="bg-border" />
 
                 {/* Contact Information */}
                 <div className="space-y-3">
-                  <h4 className="text-sm font-semibold">Contact Host</h4>
+                  <h4 className="text-sm font-semibold text-card-foreground">
+                    Contact Host
+                  </h4>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Mail className="h-4 w-4" />
@@ -442,10 +540,15 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                   event.host.instagramUrl ||
                   event.host.linkedinUrl) && (
                   <>
-                    <Separator />
+                    <Separator className="bg-border" />
                     <div className="flex gap-2">
                       {event.host.websiteUrl && (
-                        <Button size="icon" variant="outline" asChild>
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          className="border-border hover:bg-muted"
+                          asChild
+                        >
                           <a
                             href={event.host.websiteUrl}
                             target="_blank"
@@ -456,7 +559,12 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                         </Button>
                       )}
                       {event.host.facebookUrl && (
-                        <Button size="icon" variant="outline" asChild>
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          className="border-border hover:bg-muted"
+                          asChild
+                        >
                           <a
                             href={event.host.facebookUrl}
                             target="_blank"
@@ -467,7 +575,12 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                         </Button>
                       )}
                       {event.host.instagramUrl && (
-                        <Button size="icon" variant="outline" asChild>
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          className="border-border hover:bg-muted"
+                          asChild
+                        >
                           <a
                             href={event.host.instagramUrl}
                             target="_blank"
@@ -478,7 +591,12 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                         </Button>
                       )}
                       {event.host.linkedinUrl && (
-                        <Button size="icon" variant="outline" asChild>
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          className="border-border hover:bg-muted"
+                          asChild
+                        >
                           <a
                             href={event.host.linkedinUrl}
                             target="_blank"
@@ -492,7 +610,10 @@ const EventDetailsContent = ({ event }: EventDetailsContentProps) => {
                   </>
                 )}
 
-                <Button variant="outline" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full border-border hover:bg-muted"
+                >
                   Message Host
                 </Button>
               </CardContent>

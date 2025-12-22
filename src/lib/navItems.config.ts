@@ -80,24 +80,24 @@ export const adminNavItems: NavSection[] = [
   {
     title: "User Management",
     items: [
-      {
-        title: "Admins",
-        href: "/admin/dashboard/admins-management",
-        icon: "Shield",
-        roles: ["ADMIN"],
-      },
+      // {
+      //   title: "Admins",
+      //   href: "/admin/dashboard/admins-management",
+      //   icon: "Shield",
+      //   roles: ["ADMIN"],
+      // },
       {
         title: "Hosts Verification",
         href: "/admin/dashboard/hosts-verification",
         icon: "Stethoscope",
         roles: ["ADMIN"],
       },
-      {
-        title: "Users",
-        href: "/admin/dashboard/users-management",
-        icon: "Users",
-        roles: ["ADMIN"],
-      },
+      // {
+      //   title: "Users",
+      //   href: "/admin/dashboard/users-management",
+      //   icon: "Users",
+      //   roles: ["ADMIN"],
+      // },
     ],
   },
   {
