@@ -119,7 +119,7 @@ export default function PaymentSuccessPage() {
             {/* Action Buttons */}
             <div className="space-y-3">
               <Button asChild className="w-full" size="lg">
-                <Link href="/dashboard/my-events">
+                <Link href="/dashboard/my-booked-events">
                   <Calendar className="mr-2 h-4 w-4" />
                   View My Events
                 </Link>
