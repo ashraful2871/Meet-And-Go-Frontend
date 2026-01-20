@@ -92,3 +92,29 @@ npm install
 
 # Run development server
 npm run dev
+```
+📱 Usage
+
+Register as a Tourist or Guide
+
+Explore available tours and filter based on preferences
+
+Tourists request bookings
+
+Guides manage and confirm bookings
+
+Both parties leave post-tour feedback
+
+Payments processed securely for confirmed tours
+
+📄 Pages & Routing
+Page	Path	Description
+Landing Page	/	Hero, featured tours, CTA
+Explore Tours	/explore	Search and filter tours
+Listing Details	/tours/[id]	View detailed info and request booking
+Register / Login	/register, /login	Auth pages
+Profile Page	/profile/[id]	View/edit user profile
+Dashboard (Tourist)	/dashboard	My bookings, wishlist
+Dashboard (Guide)	/dashboard	My listings, bookings
+Listing Management	/dashboard/listings	Add/edit tour listings
+Admin Dashboard	/dashboard/admin	Manage users, listings, bookings
