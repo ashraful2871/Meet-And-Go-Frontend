@@ -6,7 +6,6 @@ import HowItWorks from "@/components/modules/Home/HowItWorks";
 import Testimonials from "@/components/modules/Home/Testimonials";
 import WhyChooseUs from "@/components/modules/Home/Whychooseus";
 import { getAllEvents } from "@/service/event/all-event";
-import React from "react";
 
 const Home = async () => {
   const events = await getAllEvents();
